@@ -1,0 +1,187 @@
+Claro! Refiz o código C do sistema de inventário (Mochila Virtual), removendo todos os separadores e focando na funcionalidade direta, conforme solicitado.
+
+🎒 Código C para Simulação de Inventário (Versão Simples)
+C
+
+#include <stdio.h>      
+#include <stdlib.h>     
+#include <string.h>     
+
+// CONSTANTES E DEFINIÇÃO DA ESTRUTURA
+#define CAPACIDADE_MAXIMA 10 
+#define MAX_NOME_ITEM 30
+#define MAX_TIPO_ITEM 20
+
+// Definição da Struct Item
+struct Item {
+    char nome[MAX_NOME_ITEM];       
+    char tipo[MAX_TIPO_ITEM];       
+    int quantidade;                 
+};
+typedef struct Item Item;
+
+
+// VARIÁVEIS DE CONTROLE
+Item mochila[CAPACIDADE_MAXIMA]; 
+int totalItens = 0; 
+
+
+// FUNÇÕES MODULARES
+
+// Busca Sequencial: Retorna o índice ou -1.
+int buscarItemPeloNome(const char *nomeBusca) {
+    int i;
+    for (i = 0; i < totalItens; i++) {
+        if (strcmp(mochila[i].nome, nomeBusca) == 0) {
+            return i; 
+        }
+    }
+    return -1; 
+}
+
+
+// CADASTRA/INSERE UM NOVO ITEM
+void inserirItem() {
+    if (totalItens >= CAPACIDADE_MAXIMA) {
+        printf("\n! A mochila esta cheia. Nao e possivel adicionar mais itens.\n");
+        return;
+    }
+
+    printf("\nCADASTRO DE NOVO ITEM\n");
+    
+    printf("Nome do Item (max %d caracteres): ", MAX_NOME_ITEM - 1);
+    scanf("%29s", mochila[totalItens].nome);
+    
+    printf("Tipo do Item (ex: cura, arma, municao): ");
+    scanf("%19s", mochila[totalItens].tipo);
+
+    printf("Quantidade: ");
+    scanf("%d", &mochila[totalItens].quantidade);
+
+    totalItens++;
+
+    printf("\nItem '%s' adicionado com sucesso a mochila.\n", mochila[totalItens - 1].nome);
+}
+
+
+// REMOVE UM ITEM PELO NOME
+void removerItem() {
+    if (totalItens == 0) {
+        printf("\n! A mochila esta vazia. Nao ha itens para remover.\n");
+        return;
+    }
+
+    char nomeParaRemover[MAX_NOME_ITEM];
+    printf("\nREMOCAO DE ITEM\n");
+    printf("Digite o NOME do item que deseja remover: ");
+    scanf("%29s", nomeParaRemover);
+
+    int indice = buscarItemPeloNome(nomeParaRemover);
+
+    if (indice == -1) {
+        printf("\n! Item '%s' nao encontrado na mochila.\n", nomeParaRemover);
+        return;
+    }
+
+    // Lógica de Deslocamento
+    int i;
+    for (i = indice; i < totalItens - 1; i++) {
+        mochila[i] = mochila[i + 1];
+    }
+
+    totalItens--;
+
+    printf("\nItem '%s' removido com sucesso da mochila.\n", nomeParaRemover);
+}
+
+
+// LISTA TODOS OS ITENS REGISTRADOS
+void listarItens() {
+    printf("\nINVENTARIO ATUAL (MOCHILA)\n");
+    printf("------------------------------------------\n");
+
+    if (totalItens == 0) {
+        printf("A mochila esta vazia. (0/%d)\n", CAPACIDADE_MAXIMA);
+        printf("------------------------------------------\n");
+        return;
+    }
+    
+    int i;
+    for (i = 0; i < totalItens; i++) {
+        printf("ID: %d | Nome: %s | Tipo: %s | Qtd: %d\n", 
+               i,
+               mochila[i].nome, 
+               mochila[i].tipo, 
+               mochila[i].quantidade);
+    }
+    printf("------------------------------------------\n");
+    printf("Espacos ocupados: %d/%d\n", totalItens, CAPACIDADE_MAXIMA);
+}
+
+
+// BUSCA UM ITEM PELO NOME E EXIBE SEUS DADOS
+void buscarItem() {
+    if (totalItens == 0) {
+        printf("\n! A mochila esta vazia. Nao ha o que buscar.\n");
+        return;
+    }
+
+    char nomeParaBusca[MAX_NOME_ITEM];
+    printf("\nBUSCA DE ITEM\n");
+    printf("Digite o NOME do item que deseja buscar: ");
+    scanf("%29s", nomeParaBusca);
+
+    int indice = buscarItemPeloNome(nomeParaBusca);
+
+    if (indice == -1) {
+        printf("\n! Item '%s' nao encontrado na mochila.\n", nomeParaBusca);
+    } else {
+        printf("\nITEM ENCONTRADO\n");
+        printf("Nome: %s\n", mochila[indice].nome);
+        printf("Tipo: %s\n", mochila[indice].tipo);
+        printf("Quantidade: %d\n", mochila[indice].quantidade);
+    }
+}
+
+
+// BLOCO PRINCIPAL (MENU)
+int main() {
+    int opcao;
+
+    printf("Simulacao de Inventario (Mochila Virtual)\n");
+
+    do {
+        listarItens(); 
+        printf("\nEscolha uma operacao:\n");
+        printf("1. Cadastrar Item (Coletar Loot)\n");
+        printf("2. Remover Item (Usar/Descartar)\n");
+        printf("3. Buscar Item por Nome\n");
+        printf("0. Sair do Sistema\n");
+        printf("Opcao: ");
+        
+        if (scanf("%d", &opcao) != 1) {
+            while (getchar() != '\n');
+            opcao = -1;
+        }
+
+        switch (opcao) {
+            case 1:
+                inserirItem();
+                break;
+            case 2:
+                removerItem();
+                break;
+            case 3:
+                buscarItem();
+                break;
+            case 0:
+                printf("\nSistema de Inventario encerrado. Bom jogo!\n");
+                break;
+            default:
+                printf("\n! Opcao invalida. Tente novamente.\n");
+        }
+        
+    } while (opcao != 0);
+
+    return 0;
+}
