@@ -24,3 +24,20 @@ listarItens()
 buscarItem(): Utiliza busca sequencial para localizar o item pelo nome.
 
 Usabilidade: Implementação de um menu interativo (main) que permite ao usuário controlar o fluxo do inventário.
+
+Este commit marca uma expansão significativa do projeto de inventário, focada na comparação empírica de duas estruturas de dados fundamentais em C: Vetor (Lista Sequencial) e Lista Encadeada (Estrutura Dinâmica).
+
+Funcionalidade Principal
+Implementação Dupla: Todas as operações básicas de inventário (inserção, remoção, listagem) foram implementadas em paralelo para as duas estruturas.
+
+Análise de Performance: Introdução de contadores para medir o número de comparações realizadas nas buscas, demonstrando a eficiência de cada método.
+
+Busca Avançada: O Vetor agora suporta Ordenação (Bubble Sort) e Busca Binária, destacando a vantagem da ordenação em listas sequenciais
+
+struct Item: Mantida para dados do objeto.
+
+struct No: Nova estrutura que contém o Item e o ponteiro *proximo.
+
+Contadores: Variáveis (comparacoesSequencial, comparacoesBinaria) para quantificar o trabalho de cada algoritmo de busca.
+
+Gerenciamento de Memória: Implementação da função liberarLista() para desalocar todos os nós criados dinamicamente.
