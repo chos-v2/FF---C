@@ -41,3 +41,13 @@ struct No: Nova estrutura que contém o Item e o ponteiro *proximo.
 Contadores: Variáveis (comparacoesSequencial, comparacoesBinaria) para quantificar o trabalho de cada algoritmo de busca.
 
 Gerenciamento de Memória: Implementação da função liberarLista() para desalocar todos os nós criados dinamicamente.
+
+Este commit representa o estágio final do projeto de inventário/planejamento, onde o foco muda para a análise de desempenho de algoritmos de ordenação e a aplicação de Busca Binária para otimização estratégica.
+
+Funcionalidade Principal
+Priorização Estratégica: O jogador pode escolher entre diferentes algoritmos de ordenação para organizar os componentes de montagem da Torre de Fuga com base em critérios (Nome, Tipo, Prioridade).
+
+Análise de Desempenho: O sistema mede e exibe o número de comparações e o tempo de execução (clock()) de cada algoritmo de ordenação, fornecendo feedback educacional sobre eficiência.
+
+Ativação da Torre: Implementação da Busca Binária para localizar rapidamente o componente-chave (chip central), uma operação que só pode ser realizada após a ordenação do vetor por nome.
+
